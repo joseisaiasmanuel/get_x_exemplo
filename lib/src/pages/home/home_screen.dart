@@ -18,66 +18,40 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Get-x"),
+          title: const Text("Navegação"),
           centerTitle: true,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: nomeController,
-                        decoration: const InputDecoration(label: Text("Nome")),
-                      ),
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          userController.setUserName(nomeController.text);
-                        },
-                        child: const Text("Salvar"))
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(
-                        child: TextFormField(
-                      controller: ageController,
-                      decoration: const InputDecoration(label: Text("Idade")),
-                    )),
-                    ElevatedButton(
-                        onPressed: () {
-                          userController
-                              .setUserAge(int.parse(ageController.text));
-                        },
-                        child: const Text("Salvar"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context)
+               
+            const Expanded(
+                child: Center(
+                    child: Text(
+              "Valor:",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ))),
+            ElevatedButton(
+                onPressed: () async {
+                  /* final result= await  Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return const DataScree();
-                      }));
+                        return  DataScree();
+                      }));*/
+                  final result = Get.to(() => DataScree());
+                  print(result);
+                
                     },
-                    child: const Text("Tela de dados"))
+                child: const Text("Segunda Tela"))
               ]),
         ));
   }
 }
 
 class DataScree extends GetView<UserController> {
-   const DataScree({
+  DataScree({
     
     Key? key,
   }) : super(key: key);
@@ -85,12 +59,12 @@ class DataScree extends GetView<UserController> {
 
   TextStyle commonStyle() =>
       const TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
-
+  final textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
-        title: const Text("Dados"),
+        title: const Text("Definição de dado"),
       ),
       body: Padding(
       padding: const EdgeInsets.all(16.0),
@@ -98,9 +72,17 @@ class DataScree extends GetView<UserController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Obx(() => Text("Nome: ${controller.user.value.name} ", style: commonStyle())),
-            Obx(() => Text("Idade ${controller.user.value.age} ",
-                style: commonStyle())),
+              TextFormField(
+                controller: textController,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                  onPressed: () {
+                    final value = textController.text;
+                    // Navigator.of(context).pop(result);
+                    Get.back(result: value);
+                  },
+                  child: const Text("Retonar"))
       
           ],
         ),
